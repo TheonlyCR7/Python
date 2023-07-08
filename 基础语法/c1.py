@@ -19,11 +19,11 @@ def go(file1):
         print(list1[i])
 
 
-import os
-os.chdir('data')
-data1 = open('Bob.txt')
-data2 = open('Tom.txt')
-data3 = open('Lily.txt')
-go(data1)
-go(data2)
-go(data3)
+# import os
+# os.chdir('data')
+# data1 = open('Bob.txt')
+# data2 = open('Tom.txt')
+# data3 = open('Lily.txt')
+# go(data1)
+# go(data2)
+# go(data3)
