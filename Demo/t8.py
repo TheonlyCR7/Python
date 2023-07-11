@@ -50,5 +50,27 @@
 #     name = input('Please enter your name: ')
 # print('Hello, {}!'.format(name))
 
-for num in range(0, 3):
-    print(num, end=' ')
+# for num in range(0, 3):
+#     print(num, end=' ')
+# 0 1 2
+
+# d = {'x': 1, 'y': 2}
+# # for key in d:
+# #     print(key, 'to', d[key])
+# d = {'x': 1, 'y': 2}
+# for key, value in d.items():
+# 	print(key, 'to', value)
+# x to 1
+# y to 2
+
+# x = y = 'python'
+# del x
+# print(y)
+# print(x)
+exec("print('look')")
+from math import sqrt
+scope = {}
+exec('sqrt=1', scope)
+print(sqrt(4))
+print(scope['sqrt'])
+

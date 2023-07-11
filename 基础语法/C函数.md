@@ -61,7 +61,7 @@ print(a,b)
 ```
 
 ## 函数返回值
-
+用明确的变量组来接受函数输出值，便于后期查看（序列解包），不用元组
 ```python
 def damage(skill1,skill2):
     damage1 = skill1 * 3
@@ -91,10 +91,10 @@ a,b = [1,2,3]       #不可解包
 ### 必须参数
 
 ```python
-def add(x,y):
+def add(x,y):  # x,y 为必须参数
     result = x + y
     return result
-#中的 x,y 为必须参数
+
 #形式参数，实际参数，与c语言中类似
 ```
 
@@ -257,3 +257,4 @@ city_temp(**a)
 <class 'dict'>
 
 ```
+
