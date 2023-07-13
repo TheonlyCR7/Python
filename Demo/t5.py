@@ -6,10 +6,10 @@
 # print(d)
 # {'name': 'Gumby', 'age': 42}
 
-# d = {
-#     'name_a' :'Gumby', 'age1':42, 
-#     'name_b' :'bob', 'age2':12, 
-#     'name_c':'lily', 'age3':14}
+d = {
+    'name_a' :'Gumby', 'age1':42, 
+    'name_b' :'bob', 'age2':12, 
+    'name_c':'lily', 'age3':14}
 # num = len(d) # 返回字典的键值对数量
 # print('num=' + str(num))
 # str1 = d['name_a'] # 参数为键 返回值为对应的值
