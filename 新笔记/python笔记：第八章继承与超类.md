@@ -167,7 +167,122 @@ tom.eat()
 > eating.
 ```
 
+## 1.5 重写
+
+重写是继承的重要方面
+
+```python
+class Dog:
+	def eat(self):
+		print('Dog is eating')
+
+class Bobo(Dog):
+	def eat(self):
+		print('Bobo is eating')
+		
+bobo = Bobo()
+bobo.eat()
+> Bobo is eating
+```
 
 
 
+# 2. 子类对超类的访问
+
+## 2.1调用超类构造函数
+
+通过函数super
+
+```python
+class Animal:
+    def __init__(self, name):
+        self.name = name
+        print("I'm an animal. My name is", self.name)
+
+class Dog(Animal):
+    def __init__(self, name, age):
+        super().__init__(name) # super调用超类构造函数 并传递参数
+        self.age = age
+        print("My name is", self.name, "and I'm", self.age, "years old.")
+
+my_dog = Dog("Buddy", 3)
+```
+
+运行结果
+
+```
+I'm an animal. My name is Buddy
+My name is Buddy and I'm 3 years old.
+```
+
+
+
+# 3.一些魔法方法
+
+## 3.1 函数property
+
+`property` 是一个内置的 Python 函数，它可以将类方法转换为属性。
+
+使用 `property` 可以让我们通过类方法对属性进行访问和修改，而**无需直接访问属性**。这样可以帮助我们更好地控制属性的访问方式和值。它通常用于**封装类的属性**。
+
+```
+property(fget=None, fset=None, fdel=None, doc=None)
+其中：
+fget：获取属性值的方法（getter）
+fset：设置属性值的方法（setter）
+fdel：删除属性值的方法（deleter）
+doc：属性文档字符串
+```
+
+其中 `fget` 是必须的，而 `fset` 和 `fdel` 可选。
+
+如果只需要实现只读属性，则只需定义 `fget` 方法。
+
+如果需要定义可写属性，则需要定义 `fget` 和 `fset` 方法。
+
+一个例子：
+
+```
+class Celsius:
+    def __init__(self, temperature=0):  # 默认值为0
+        self._temperature = temperature
+
+    def to_fahrenheit(self):
+        return (self._temperature * 1.8) + 32
+
+    def get_temperature(self): # 获取值
+        print("Getting value...")
+        return self._temperature
+
+    def set_temperature(self, value): # 修改值
+        print("Setting value...")
+        self._temperature = value
+
+	# 进行方法聚合
+    temperature = property(get_temperature, set_temperature)
+
+c = Celsius()  # 创建实例
+print(c.temperature)
+c.temperature = 37
+print(c.temperature)
+c.temperature = 10
+print(c.temperature)
+```
+
+运行结果
+
+```
+Getting value...
+0
+Setting value...
+Getting value...
+-1
+Setting value...
+Getting value...
+10
+```
+
+
+
+## 3.2 迭代器
 

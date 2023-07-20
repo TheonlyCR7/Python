@@ -86,6 +86,32 @@ print(skill1_damage,skill2_damage)
 > 9 22
 ```
 
+* 标明函数的返回值
+
+```
+def printer() -> int:  # 标明返回值为int型
+    return 11
+```
+
+```
+# Exception的构造函数
+class Exception(BaseException):
+	# 通过 -> None表明函数没有返回值
+    def __init__(self, *args: object) -> None:
+        pass
+```
+
+注意：这里只起到标明作用，运行过程中不会影响返回值
+
+```python
+def printer() -> str:  # 标明返回值为str
+    return 11  # 实际上为int
+a = printer()
+print(type(a))
+>
+<class 'int'>  
+```
+
 
 
 ## 2.1 函数的参数

@@ -1,6 +1,7 @@
-from warnings import warn
-warn('got a bad feeling.')
-print('hello')
+# def printer() -> str:
+#     return 11
+# a = printer()
+# print(type(a))
 
 
 # class CustomException(Exception):
@@ -33,5 +34,52 @@ print('hello')
 #     print(f"Error: {str(ex)}")
 # else:
 #     print(result)
+
+# class Celsius:
+#     def __init__(self, temperature=0):
+#         self._temperature = temperature
+
+#     def to_fahrenheit(self):
+#         return (self._temperature * 1.8) + 32
+
+#     def get_temperature(self):
+#         print("Getting value...")
+#         return self._temperature
+
+#     def set_temperature(self, value):
+#         print("Setting value...")
+#         self._temperature = value
+
+#     temperature = property(get_temperature, set_temperature)
+
+# c = Celsius()
+# print(c.temperature)
+# c.temperature = -1
+# print(c.temperature)
+# c.temperature = 10
+# print(c.temperature)
+
+
+class MyIterable:
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+        
+    def __iter__(self):
+        self.current = self.start
+        return self
+    
+    def __next__(self):
+        if self.current < self.end:
+            value = self.current
+            self.current += 1
+            return value
+        else:
+            raise StopIteration
+        
+try:
+    my = MyIterable()
+except StopIteration as se:
+    print(str(se))
 
 
