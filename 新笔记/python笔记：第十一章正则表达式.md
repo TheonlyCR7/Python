@@ -205,15 +205,18 @@ import re
 a = 'pythonpythonpythonJs'
 
 r = re.findall('(python){3}(JS)', a)
-print(r)  # []
+print(r)  
+> []
 
 # re.I 不区分大小写  第三个参数
 r = re.findall('(python)(JS)', a, re.I)
-print(r)  # [('python', 'Js')]
+print(r)  
+> [('python', 'Js')]
 
 # 接受多个第三个参数时，用|隔开
 r = re.findall('(python)(JS)', a, re.I | re.S)
-print(r)  # [('python', 'Js')]
+print(r)  
+> [('python', 'Js')]
 ```
 
 ## 2.9`.` 匹配除换行符\n 以外的其他所有字符
@@ -221,11 +224,13 @@ print(r)  # [('python', 'Js')]
 ```python
 # . 匹配出换行符\n 以外的其他所有字符
 a = 'python\nCC'
-r = re.findall('python.', a, re.I)
-print(r)  # []   无法匹配\n
+r = re.findall('python.', a, re.I)  # 无法匹配\n
+print(r)  
+> []   
 
 r = re.findall('python.', a, re.S)   #  让 . 可以匹配换行符 
-print(r)  # ['python\n']   
+print(r)  
+> ['python\n']   
 ```
 
 ## 2.10`re.sub` 替换操作
@@ -235,19 +240,23 @@ print(r)  # ['python\n']
 import re
 language = 'PythonC#JavaC#PHPC#'
 r = re.sub('C#', 'GO', language)
-print(r)   # PythonGOJavaGOPHPGO
+print(r)   
+> PythonGOJavaGOPHPGO
 
 r = re.sub('C#', 'GO', language, 1)
-print(r)   # PythonGOJavaC#PHPC#   只替换了一个
+print(r)   
+> PythonGOJavaC#PHPC#   只替换了一个
 
 r = re.sub('C#', 'GO', language, 0)
-print(r)   # PythonGOJavaGOPHPGO
+print(r)   
+> PythonGOJavaGOPHPGO
 
 # re.sub 的第二个参数可以是函数
 def convert(value):
     pass
 r = re.sub('C#', convert, language)
-print(r)  # PythonJavaPHP
+print(r)  
+> PythonJavaPHP
 
 
 def conver(value):
@@ -255,7 +264,8 @@ def conver(value):
     return '!!' + matched + '!!'
 
 r = re.sub('C#', convert, language)
-print(r)   # Python!!C#!!PHP!!C#!!
+print(r)   
+> Python!!C#!!PHP!!C#!!
 ```
 
 ## 2.11将函数作为参数
@@ -275,7 +285,8 @@ def convert(value):
         return 0
     
 r = re.sub('\d', convert, s)
-print(r)  # ABC09999D000
+print(r)  
+> ABC09999D000
 ```
 
 ## 2.12`re.match  re.search` 
@@ -288,9 +299,13 @@ import re
 s = 'ABC37978D432'
 
 r = re.match('\d', s)  #  从字符串的开始位置开始匹配，若不符，则返回None
-print(r)  # None
+print(r)  
+> None
+
 r = re.search('\d', s) #  在字符串中寻找可以匹配的
-print(r)  # <re.Match object; span=(3, 4), match='3'>
+print(r)  
+> <re.Match object; span=(3, 4), match='3'>
+
 print(r.group())  # 3
 print(r.span())   # (3, 4)   返回匹配的区间
 ```
