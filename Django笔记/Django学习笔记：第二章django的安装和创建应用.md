@@ -193,7 +193,6 @@ from django.shortcuts import render # 该方法的作用是将指定的模板进
 
 # Create your views here.
 from django.http import HttpResponse # 该类用于构造HTTP响应对象
-from myapp import views  # 导入视图函数
 
 def index(request): # 视图函数index，该函数接收一个request对象作为参数，该对象包含了客户端的请求信息
 	return render(request, '1/index.html') # 该行调用render方法，将index.html模板进行渲染，并将渲染结果返回给客户端。在该方法中，第一个参数是request对象，第二个参数是要渲染的模板文件名
@@ -206,6 +205,7 @@ def index(request): # 视图函数index，该函数接收一个request对象作�
 ```
 from django.contrib import admin
 from django.urls import path
+from myapp import views  # 导入视图函数
 
 urlpatterns = [
     path('index/', views.index), 
@@ -272,3 +272,5 @@ from myapp import views
 ![image-20230721214645318](https://s2.loli.net/2023/07/21/m17WCzH2KrOqA8x.png)
 
 成功！
+
+组合键 Ctrl + C 退出
