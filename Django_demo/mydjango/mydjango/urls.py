@@ -18,13 +18,13 @@ from django.contrib import admin
 from django.urls import path, include
 from myapp2 import views as v2
 from myapp import views as v1
-import views as v
+from mydjango import views as v
 
 urlpatterns = [
-    path('/', urls)
+    path('', v.index),
     path('admin/', admin.site.urls),
     path('index/', v1.index, name='index'),
-    path('myapp', include('myapp.urls')),
-    path('myapp1/', include('myapp.urls')),
-    path('myapp2/', include('myapp2.urls'))
+    path('', include('myapp.urls')),
+    path('', include('myapp1.urls')),
+    path('', include('myapp2.urls'))
 ]
