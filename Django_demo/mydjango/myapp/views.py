@@ -4,10 +4,17 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 def index(request):
-	return render("request, 'myapp/index.html'")
+	return render(request, 'myapp/index.html')
 
 def show(request, id):
 	return HttpResponse('myapp中的show方法, 参数为id, 值为' + str(id))
+
+def test_response(request):
+	response = HttpResponse()
+	response.write('这是通过write方法输出到页面上的文字')
+	response.write('<br>')  # 回车
+	response.write('这一行也是')
+	return response
 
 def test_get(request):
 	print(request.get_host())

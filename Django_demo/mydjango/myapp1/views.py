@@ -11,3 +11,6 @@ def url_reverse(request):
 	# 进行反向解析
 	print('反向解析结果：' + reverse('myapp1_url_reverse'))
 	return render(request, '2/url_reverse.html')
+
+def test_render(request):
+	return render(request, 'myapp1/test_render.html', {'info':'myapp1'}, content_type='text/html')

@@ -1,10 +1,10 @@
 # 1. 视图函数
 
-用于处理客户端的请求并生成响应数据。在属兔中使用函数处理请求的方式，被称为视图函数，也叫作FBV(Function Base Views). 
+用于处理客户端的请求并生成响应数据。在views使用函数处理请求的方式，被称为视图函数，也叫作FBV(Function Base Views). 
 
 一个简单的视图函数：在views.py里面配置
 
-```
+```python
 from django.http import HttpResponse  # 导入HttpResponse类
 
 def index(request):  # 接收HttpRequest请求对象
@@ -80,6 +80,165 @@ def index(request):  # 接收HttpRequest请求对象
 view.py中
 
 ```
+def test_get(request):
+	print(request.get_host())  # 获取请求的主机名 
+	print(request.path)   # 获取请求路径
+	print(request.get_full_path()) # 获取请求的完整路径
+	print(request.method)    # 表示页面的请求方法
+	print(request.GET)  # 包含 GET请求方法中的所有参数
+	print(request.build_absolute_uri())  # 构建绝对 URL
+	print(request.META['HTTP_USER_AGENT'])  # 客户端信息
+	print(request.META['REMOTE_ADDR'])  # 客户端IP地址
+	print(request.GET.get('username')) # 'GET'表示获取查询参数，而'username'则指定查询参数的名称
+	return HttpResponse('')   # 该行无输出
+```
+
+运行，访问`http://localhost:8000/myapp/test_get/`
+
+![image-20230725200611551](https://s2.loli.net/2023/07/25/V7MGDfJveQqYrA6.png)
+
+终端输出
 
 ```
+localhost:8000
+/myapp/test_get/
+/myapp/test_get/
+GET
+<QueryDict: {}>
+http://localhost:8000/myapp/test_get/
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36 Edg/115.0.1901.183
+127.0.0.1
+None  
+```
+
+
+
+## 1.3 `HttpResponse` 对象
+
+每个视图函数都会返回一个`HttpResponse` 对象，对象包含返给客户端的所有数据
+
+常见属性
+
+| 属性         | 含义                                |
+| ------------ | ----------------------------------- |
+| content      | 返回的内容                          |
+| status_code  | 返回的HTTP响应状态码                |
+| content-type | 返回的数据MIME类型，默认为text/html |
+
+常见的状态码status_code
+
+| 状态码 | 含义                                  |
+| ------ | ------------------------------------- |
+| 200    | 状态成功                              |
+| 301    | 永久重定向，Location属性的值为当前URL |
+| 302    | 临时重定向，Location属性的值为新的URL |
+| 404    | URL未发现，不存在                     |
+| 500    | 内部服务器错误                        |
+| 502    | 网管错误                              |
+| 503    | 服务不可用                            |
+
+
+
+### 方法write
+
+返回字符串到页面上，可以为HTML代码
+
+在myapp的视图文件里面添加
+
+```
+def test_response(request):
+	response = HttpResponse()
+	response.write('这是通过write方法输出到页面上的文字')
+	response.write('<br>')  # 回车
+	response.write('这一行也是')
+	return response
+```
+
+在路由文件中添加路径
+
+```
+path('myapp/test_response', views.test_response)
+```
+
+运行
+
+![image-20230725204305165](https://s2.loli.net/2023/07/25/sZfJCKxHOXiPGYR.png)
+
+
+
+## 1.4 一些视图处理函数
+
+使用HtpRequest和HttpResponse对象，较为繁琐。Django将这些操作进行了封装，提供了几个简单的函数供我们使用。
+
+
+
+### 1.4.1 用render()函数实现页面渲染
+
+`render()`函数用于将模板渲染为HTTP响应并返回。它的作用是将请求、上下文和模板结合起来，生成HTML响应。
+
+根据模板文件和 传递给模板文件的字典类型的变量，返回一个HttpResponse对象
+
+函数格式
+
+```
+from django.shortcuts import render  # 先导入
+render(request, template_name, context=None, content_type=None, status=None, using=None)
+```
+
+其中，`request`是必需的，`template_name`也是必需的，而其余参数都是可选的。下面是各个参数的含义：
+
+- `request`: 包含HTTP请求信息的HttpRequest对象。传递给视图函数的所有请求。
+- `template_name`: 在templates目录下的模板文件。
+- `context`: 字典类型的数据，保存要传递到HTML文件中的变量。默认为None。
+- `content_type`: 返回的HTTP响应内容类型。默认为None，即使用默认的content_type，即"text/html"。
+- `status`: 返回的HTTP响应状态码。默认为200，也就是None。
+- `using`: 指定要使用的模板引擎（如果存在多个模板引擎）用于解析模板文件。默认为None，即使用默认的模板引擎。
+
+### 一个例子
+
+通过字典形式向HTML文件输出数据
+
+myapp1/views.py
+
+```
+def test_render(request):
+	return render(request, 'myapp1/test_render.html', {'info':'myapp1'}, content_type='text/html')
+```
+
+myapp1/urls.py
+
+```
+path('myapp1/test_render', views.test_render)
+```
+
+在模板中添加myapp1/test_render.html
+
+```
+<meta charset="utf-8">
+<div>
+    myapp1通过render方法输出
+    <br>
+    {{info}}
+</div>
+```
+
+运行
+
+![image-20230725221119939](https://s2.loli.net/2023/07/25/8YSgKVMUbx4cP71.png)
+
+
+
+### 1.4.2 redirect()实现页面重定向
+
+> 什么是页面重定向？
+>
+> 页面重定向是指当用户请求一个网页时，服务器将浏览器请求的页面地址重定向到另一个地址，而浏览器会自动跳转到新的页面。常见的页面重定向有 301 重定向和 302 重定向，它们的作用是改变页面的 URL 地址，以及在搜索引擎优化和网站访问性能方面具有重要的作用。例如，将旧的页面地址重定向到新的页面地址可以帮助保持搜索引擎排名和用户访问，也可以帮助在网站更新或迁移时保持页面的访问性能和用户体验。
+
+如果网站的目录结果被调整，网页被移到新地址，若没有重定向，用户通过旧链接，只能得到404。
+
+函数参数有3中情况：
+
+* 通过调用模型的`get_absolute_url()` 函数进行重定向
+* 通过路由反向解析进行重定向
+* 通过一个绝对的或是相对的URL，让浏览器跳转到指定URL
 
