@@ -242,3 +242,84 @@ path('myapp1/test_render', views.test_render)
 * 通过路由反向解析进行重定向
 * 通过一个绝对的或是相对的URL，让浏览器跳转到指定URL
 
+需要导入
+
+```
+from django.shortcuts import redirect
+```
+
+
+
+### 一个例子
+
+在myapp2中的models.py中添加代码
+
+```
+from django.db import models
+from django.urls import reverse
+
+class UserBaseInfo(models.Model):
+    id=models.AutoField(verbose_name='编号',primary_key=True)
+    username = models.CharField(verbose_name='用户名称',max_length=30)
+    password = models.CharField(verbose_name='密码',max_length=20)
+    status = models.CharField(verbose_name='状态',max_length=1)
+    createdate = models.DateTimeField(verbose_name='创建日期',db_column='createDate')
+
+    def __str__(self):
+        return str(self.id)
+    
+    # 定义方法，用于返回模型对外的URL
+    def get_absolute_url(self):
+        return reverse('myapp2_userinfo',kwargs={'id':self.pk}) # 反向解析
+
+    class Meta:
+        verbose_name='人员基本信息'
+        db_table = 'UserBaseInfo2'
+```
+
+> 逐行解释：
+>
+> 第4~10行：定义一个名为UserBaseInfo的Django模型，它继承自Django内置的models.Model类。
+>
+> 第5行：定义一个名为id的IntegerField类型的字段，作为该模型的主键
+>
+> 第6行：定义一个名为username的CharField类型的字段，最大长度为30，作为用户名称字段。
+>
+> 第7行：定义一个名为password的CharField类型的字段，最大长度为20，作为密码字段。
+>
+> 第8行：定义一个名为status的CharField类型的字段，最大长度为1，作为状态字段。
+>
+> 第9行：定义一个名为createdate的DateTimeField类型的字段，它的数据库列名为createDate，用于表示创建日期和时间。
+>
+> 第11~13行：定义模型的__str__()方法，它返回该模型实例的id。
+>
+> 第15~19行：定义模型的get_absolute_url()方法，它用于返回该模型对象在网站中的URL地址，其中使用reverse()函数来生成URL。
+>
+> 第21~23行：定义模型的Meta类，它包含一些元数据，例如verbose_name和db_table属性，分别用于设置模型的人机可读名称和数据库表名。
+
+
+
+在myapp2的视图文件中添加代码
+
+```
+from .models import *
+from django.shortcuts import redirect
+
+def test_redirect_model(request,id):
+    user=UserBaseInfo.objects.get(id=id)
+    return redirect(user)
+
+def userinfo(request,id):
+    user=UserBaseInfo.objects.get(id=id)
+    return HttpResponse("编号："+str(user.id)+" 姓名："+user.username)
+```
+
+
+
+在myapp2的路由文件中添加代码
+
+```
+path('myapp2/test_redirect_model/<int:id>/',views.test_redirect_model,name='app2_test_redirect_model'),
+path('myapp2/userinfo/<int:id>/',views.userinfo,name='app2_userinfo'),
+```
+
