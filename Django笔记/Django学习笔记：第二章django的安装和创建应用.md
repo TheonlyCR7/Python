@@ -178,7 +178,7 @@ myapp  # 应用目录，不能修改名称
 
 创建应用后，需要在全局配置文件中手动注册：打开 `mydjango\settings.py` 文件，找到`INSTALLED_APPS` 节点，添加应用名称
 
-![image-20230721202946263](https://s2.loli.net/2023/07/21/y5W6TRlDxHBmn8L.png)
+![202307212029319.png](https://s2.loli.net/2023/07/21/y5W6TRlDxHBmn8L.png)
 
 ## 3.3 处理控制器
 
