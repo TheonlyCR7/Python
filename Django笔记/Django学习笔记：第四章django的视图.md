@@ -250,7 +250,7 @@ from django.shortcuts import redirect
 
 
 
-### 调用模型函数实现重定向
+### 1.4.3 调用模型函数实现重定向
 
 * 在myapp2中的models.py中添加代码
 
@@ -353,4 +353,231 @@ path('myapp2/userinfo/<int:id>/',views.userinfo,name='app2_userinfo'),
 崩溃的一上午……
 
 
+
+### 1.4.4 通过路由反向解析进行重定向
+
+* 打开myapp应用，在views.py中添加函数
+
+```
+from django.shortcuts import redirect
+def test_redirect_views(request,id):
+    return redirect('myapp_userinfo',id)
+```
+
+使用redirect函数直接反向解析路由，和reverse()效果一样
+
+* 在urls.py中添加路由
+
+```
+path('myapp/test_redirect_views/<int:id>/',views.test_redirect_views,name='app2_test_redirect_views'),
+```
+
+* 在views.py中添加跳转重定向函数
+
+```
+# 实现跳转重定向
+def test_redirect(request):
+	return redirect('https://www.cnblogs.com/lmc7/')
+```
+
+* 添加对应路由
+
+```
+path('myapp/test_redirect/',views.test_redirect,name='app2_test_redirect'),
+```
+
+运行
+
+![重定向](https://s2.loli.net/2023/08/02/ANqbvJtf3Qo1nFj.gif)
+
+终端显示
+
+![image-20230802214032329](https://s2.loli.net/2023/08/02/v4XsAInmqRjtKCL.png)
+
+
+
+
+
+# 2.视图类
+
+另一种处理用户请求的方式，视图类。可以更好地处理不同的HTTP请求。
+
+## 2.1 视图类概述
+
+视图类（CBV)，采用面向对象的思维，把每个方法的处理逻辑变成视图类中的单个方法。
+
+通过在视图类中定义的get()方法和post()方法进行区别。
+
+## 2.2 对比视图函数和视图类
+
+通过视图函数实现对GET,POST请求的接收
+
+```
+def index_page(request):
+	if request.method == 'GET':
+		return HttpResponse('GET请求')
+	elif request.method == 'POST':
+		return HttpResponse('POST请求')
+```
+
+改用视图类的方式，比较简洁：
+
+```
+from django.views import View  # 导入
+class IndexPageView(View): # 继承于View类
+	# 类视图
+	def get(self, request):
+		return HttpResponse('GET请求')
+	def post(self, request):
+		return HttpResponse('POST请求')
+```
+
+视图类的路由定义方式：
+
+```
+from 应用名.views import IndexPageView  # 导入视图类
+urlpatterns = [
+	path('indexpage/', IndexPageView.as_view())
+]
+```
+
+视图类在调用时，采用的是函数方式，需要用`as_view()` 将视图类转换为视图函数。
+
+
+
+## 2.3 利用视图类进行功能设计
+
+### 2.3.1 通用视图类--TemplateView
+
+用来渲染指定的模板。
+
+新建应用myapp3（记得手动添加），新建文件`view_class.py` ，增加通用视图类
+
+```
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.views.generic import TemplateView # 导入类
+
+class TestTemplateView(TemplateView): # 继承类
+    # 设置模板文件
+    template_name="2/test_templateview.html"
+    
+    # 重写父类get_context_data()方法
+    def get_context_data(self, **kwargs):
+        context=super().get_context_data(**kwargs)
+        #增加模板变量info
+        context["info"]="该变量可以传递到模板" # 可以在模板中得到传递的字典变量
+        return context
+```
+
+新建路由文件，路由配置（记得在django项目路由文件里面提添加应用分级路由）
+
+```
+from django.urls import path
+from myapp3.views_class import *
+
+# 路径里面添加
+urlpatterns = [
+    path('myapp3/test_templateview', TestTemplateView.as_view()),
+]
+```
+
+
+
+### 2.3.2 列表视图类--LiveView
+
+用于将数据表的数据以列表形式显示
+
+在myapp3中的`view_class.py` 添加视图类
+
+```
+# 先导入
+from django.views.generic import ListView
+from .models import *
+
+class TestListView(ListView):
+    model=UserBaseInfo
+    template_name="2/test_listview.html"
+    #设置模板变量
+    #context_object_name="users"
+    #每页显示的条数
+    paginate_by=1
+
+    #queryset=UserBaseInfo.objects.filter(status=1)
+    #重新父类的get_queryset()
+    def get_queryset(self):
+        #返回状态为1的数据
+        userinfo=UserBaseInfo.objects.all()
+        return userinfo
+    
+    #重写父类get_context_data()方法
+    def get_context_data(self, **kwargs):
+        context=super().get_context_data(**kwargs)
+        #增加模板变量info
+        context["info"]="ListView变量可以传递到模板"
+        print(context)
+        return context
+```
+
+* 在model.py中添加代码
+
+```
+from django.db import models
+from django.urls import reverse
+
+class UserBaseInfo(models.Model):
+    id=models.AutoField(verbose_name='编号',primary_key=True)
+    username = models.CharField(verbose_name='用户名称',max_length=30)
+    password = models.CharField(verbose_name='密码',max_length=20)
+    status = models.CharField(verbose_name='状态',max_length=1)
+    createdate = models.DateTimeField(verbose_name='创建日期',db_column='createDate')
+
+    def __str__(self):
+        return str(self.id)
+    
+    def get_absolute_url(self):
+        return reverse('app2_userinfo',kwargs={'id':self.pk})
+
+    class Meta:
+        verbose_name='人员基本信息'
+        db_table = 'UserBaseInfo2'
+```
+
+* 新建对应模板文件 `templates/myapp3/test_listview.html`
+
+```
+<div>
+    接收变量
+    <br>
+   {{info}}
+   <table border=1>
+   {% for user in users %}
+   <tr>
+       <td>{{ user.username }}</td>
+       <td>{{ user.status }}</td>
+       <td>{{ user.createdate }}</td>
+   </tr>
+   {% endfor%}
+    </table>
+    
+    <table>
+        <tr>
+        {% if page_obj.has_previous %}
+            <td>
+            <a href="?page={{ page_obj.previous_page_number }}">
+                上一页
+            </a>
+            </td>
+        {% endif %}
+        {% if page_obj.has_next %}
+        <td>
+            <a href="?page={{ page_obj.next_page_number }}">
+                下一页
+            </a>
+        </td>
+        {% endif %}
+    </tr>
+    </table>
+</div>
+```
 

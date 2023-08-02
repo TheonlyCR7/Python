@@ -30,3 +30,10 @@ def test_get(request):
 	print(request.GET.get('username'))
 	return HttpResponse('')
 
+from django.shortcuts import redirect
+def test_redirect_views(request,id):
+    return redirect('myapp_userinfo',id)
+
+# 实现跳转重定向
+def test_redirect(request):
+	return redirect('https://www.cnblogs.com/lmc7/')

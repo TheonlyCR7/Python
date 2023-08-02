@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'myapp',  # 手动添加
     'myapp1',
     'myapp2',
+    'myapp3',
 ]
 
 MIDDLEWARE = [

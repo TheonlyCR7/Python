@@ -26,5 +26,6 @@ urlpatterns = [
     path('index/', v1.index, name='index'),
     path('', include('myapp.urls')),
     path('', include('myapp1.urls')),
-    path('', include('myapp2.urls'))
+    path('', include('myapp2.urls')),
+    path('', include('myapp3.urls')),
 ]
