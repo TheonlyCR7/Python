@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'myapp',  # 手动添加
+    'myapp1',
+    'myapp2',
 ]
 
 MIDDLEWARE = [

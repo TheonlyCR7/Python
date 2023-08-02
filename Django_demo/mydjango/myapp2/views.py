@@ -13,8 +13,12 @@ from .models import *
 from django.shortcuts import redirect
 def test_redirect_model(request,id):
     user=UserBaseInfo.objects.get(id=id)
+    print('views里面的test_redirect运行成功')
     return redirect(user)
 
 def userinfo(request,id):
     user=UserBaseInfo.objects.get(id=id)
     return HttpResponse("编号："+str(user.id)+" 姓名："+user.username)
+
+
+

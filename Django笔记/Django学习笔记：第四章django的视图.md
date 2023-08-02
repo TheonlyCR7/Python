@@ -15,8 +15,8 @@ def index(request):  # 接收HttpRequest请求对象
 
 ## 1.1 视图函数的底层原理
 
-* 主要使用 `HttpRequest` 请求对象和 `HttpResponse` 响应对象。当浏览器向服务端请求一个页面时，Django先创建一个`HttpRequest`对象。
-* 当浏览器向服务器发送请求，Django先创建一个HttpRequest对象；
+* 主要使用 `HttpRequest` 请求对象和 `HttpResponse` 响应对象。
+* 当浏览器向服务器发送请求，Django先创建一个HttpRequest对象。
 * 然后加载对应视图，将这个HttpRequest对象作为第1个参数传递给视图函数。
 * 视图函数处理后返回一个 `HttpResponse` 对象
 
@@ -250,9 +250,9 @@ from django.shortcuts import redirect
 
 
 
-### 一个例子
+### 调用模型函数实现重定向
 
-在myapp2中的models.py中添加代码
+* 在myapp2中的models.py中添加代码
 
 ```
 from django.db import models
@@ -299,7 +299,28 @@ class UserBaseInfo(models.Model):
 
 
 
-在myapp2的视图文件中添加代码
+* 终端运行
+
+```
+python .\manage.py makemigrations
+python .\manage.py migrate
+```
+
+![image-20230802102246455](https://s2.loli.net/2023/08/02/GtRKB5qNaSb23dj.png)
+
+>  这两个命令是 Django 项目中常用的数据库迁移（migration）命令。
+>
+> `python .\manage.py makemigrations` 的作用是根据您的 Django 项目的 models.py 文件生成数据库迁移文件。这些迁移文件包含您所做的更改（例如增加、修改或删除模型）的详细说明。通过运行这个命令，Django 会自动生成一组迁移文件，并且这些文件会被保存在应用程序的 migrations 目录下。这些迁移文件可以理解为您的数据库模式的版本控制。
+>
+> `python .\manage.py migrate` 的作用是将生成的迁移文件应用于数据库。这个命令会检查您的 migrations 目录下的所有迁移文件，并将它们应用于数据库。这个命令会自动跟踪每个已经应用的迁移文件，确保所有迁移都被应用。
+>
+> 通常，您在更改了您的 models.py 文件后，首先应该运行 `python .\manage.py makemigrations` 生成一组迁移文件，然后运行 `python .\manage.py migrate` 将这些迁移文件应用到数据库中。
+
+
+
+
+
+* 在myapp2的视图文件中添加代码
 
 ```
 from .models import *
@@ -316,10 +337,20 @@ def userinfo(request,id):
 
 
 
-在myapp2的路由文件中添加代码
+* 在myapp2的路由文件中添加代码
 
 ```
 path('myapp2/test_redirect_model/<int:id>/',views.test_redirect_model,name='app2_test_redirect_model'),
 path('myapp2/userinfo/<int:id>/',views.userinfo,name='app2_userinfo'),
 ```
+
+
+
+不断地报错，始终无法解决，先放在这里吧……
+
+![image-20230802123408643](https://s2.loli.net/2023/08/02/38KCYcy7HhMZg4l.png)
+
+崩溃的一上午……
+
+
 

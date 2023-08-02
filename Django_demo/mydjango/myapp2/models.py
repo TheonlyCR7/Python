@@ -13,8 +13,10 @@ class UserBaseInfo(models.Model):
     
     # 定义方法，用于返回模型对外的URL
     def get_absolute_url(self):
+        print('models里面的get_absolute_url运行成功')
         return reverse('myapp2_userinfo',kwargs={'id':self.pk}) # 反向解析
 
     class Meta:
         verbose_name='人员基本信息'
         db_table = 'UserBaseInfo2'
+        app_label = 'myapp2'
