@@ -29,3 +29,8 @@ python manage.py migrate myapp2
 是因为没有手动在项目setting.py文件中注册应用，添加应用名称
 
 ![image-20230802120103251](https://s2.loli.net/2023/08/02/RwLg3kADZhEpiKX.png)
+
+![image-20230803100639221](C:\Users\Mrliu\AppData\Roaming\Typora\typora-user-images\image-20230803100639221.png)
+
+DROP TABLE IF EXISTS UserBaseInfo3;
+

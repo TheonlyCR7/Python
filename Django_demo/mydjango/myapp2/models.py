@@ -18,5 +18,5 @@ class UserBaseInfo(models.Model):
 
     class Meta:
         verbose_name='人员基本信息'
-        db_table = 'UserBaseInfo2'
+        db_table = 'UserBaseInfo'
         app_label = 'myapp2'

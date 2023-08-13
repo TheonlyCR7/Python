@@ -354,6 +354,16 @@ path('myapp2/userinfo/<int:id>/',views.userinfo,name='app2_userinfo'),
 
 
 
+已经解决：原来是表里面没有添加数据
+
+![image-20230803105148183](https://s2.loli.net/2023/08/03/2vATHx7fJKthcrS.png)
+
+添加后，再运行
+
+![image-20230803105206182](https://s2.loli.net/2023/08/03/NsAlGOo8jqYbRHF.png)
+
+
+
 ### 1.4.4 通过路由反向解析进行重定向
 
 * 打开myapp应用，在views.py中添加函数
@@ -460,7 +470,7 @@ from django.views.generic import TemplateView # 导入类
 
 class TestTemplateView(TemplateView): # 继承类
     # 设置模板文件
-    template_name="2/test_templateview.html"
+    template_name="myapp3/test_templateview.html"
     
     # 重写父类get_context_data()方法
     def get_context_data(self, **kwargs):
@@ -475,12 +485,18 @@ class TestTemplateView(TemplateView): # 继承类
 ```
 from django.urls import path
 from myapp3.views_class import *
-
+	
 # 路径里面添加
 urlpatterns = [
     path('myapp3/test_templateview', TestTemplateView.as_view()),
 ]
 ```
+
+运行
+
+![image-20230812183211827](https://s2.loli.net/2023/08/12/xVpd7WUm91DOz4u.png)
+
+这里有bug，待解决
 
 
 
@@ -497,7 +513,7 @@ from .models import *
 
 class TestListView(ListView):
     model=UserBaseInfo
-    template_name="2/test_listview.html"
+    template_name="myapp3/test_listview.html"
     #设置模板变量
     #context_object_name="users"
     #每页显示的条数
@@ -514,9 +530,15 @@ class TestListView(ListView):
     def get_context_data(self, **kwargs):
         context=super().get_context_data(**kwargs)
         #增加模板变量info
-        context["info"]="ListView变量可以传递到模板"
+        context["info"]="myapp3: ListView变量可以传递到模板"
         print(context)
         return context
+```
+
+* 添加路由
+
+```
+path('myapp3/test_listview/',TestListView.as_view()),
 ```
 
 * 在model.py中添加代码
@@ -580,4 +602,52 @@ class UserBaseInfo(models.Model):
     </table>
 </div>
 ```
+
+运行
+
+![listview](https://s2.loli.net/2023/08/12/rPoWJlvh7ExwDVS.gif)
+
+
+
+### 2.3.4 详细视图类--DetailView
+
+用于将数据表的数据以详细视图的形式显示
+
+在myapp3应用中，views_class.py添加代码
+
+```
+class TestDetailView(DetailView):
+    model=UserBaseInfo
+    template_name="myapp3/test_detailview.html"
+    #设置模板变量
+    context_object_name="users"
+    pk_url_kwarg='userid'
+```
+
+配置路由
+
+```
+    path('myapp3/test_detailview.html', TestDetailView.as_view()),
+```
+
+新建模板 myapp3/test-detail.html
+
+```
+<div>
+    <br>
+   {{info}}
+   <table border="1">
+    <tr>
+        <td>姓名:</td>
+        <td>{{ users.username }}</td>
+    </tr>
+    <tr>
+        <td>注册时间:</td>
+        <td>{{ users.createdate }}</td>
+    </tr>
+</table>
+</div>
+```
+
+运行
 

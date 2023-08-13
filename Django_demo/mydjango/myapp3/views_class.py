@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.views.generic import TemplateView # 导入类
+from django.views.generic import TemplateView, ListView, DetailView # 导入类
 
 class TestTemplateView(TemplateView): # 继承类
     # 设置模板文件
@@ -41,3 +41,11 @@ class TestListView(ListView):
         context["info"]="ListView变量可以传递到模板"
         print(context)
         return context
+    
+
+class TestDetailView(DetailView):
+    model=UserBaseInfo
+    template_name="myapp3/test_detailview.html"
+    #设置模板变量
+    context_object_name="users"
+    pk_url_kwarg='userid'

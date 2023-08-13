@@ -17,3 +17,21 @@ class UserBaseInfo(models.Model):
     class Meta:
         verbose_name='人员基本信息'
         db_table = 'UserBaseInfo3'
+
+
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.views.generic import TemplateView # 导入类
+
+class TestTemplateView(TemplateView): # 继承类
+    # 设置模板文件
+    template_name="2/test_templateview.html"
+    
+    # 重写父类get_context_data()方法
+    def get_context_data(self, **kwargs):
+        context=super().get_context_data(**kwargs)
+        #增加模板变量info
+        context["info"]="该变量可以传递到模板" # 可以在模板中得到传递的字典变量
+        return context
+
+
