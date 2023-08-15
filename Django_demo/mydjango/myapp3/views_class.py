@@ -49,3 +49,7 @@ class TestDetailView(DetailView):
     #设置模板变量
     context_object_name="users"
     pk_url_kwarg='userid'
+
+    def get_object(self, queryset = None):
+        pk = self.kwargs.get('pk')
+        return UserBaseInfo.objects.get(pk = pk)

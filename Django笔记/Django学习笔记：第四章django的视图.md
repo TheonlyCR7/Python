@@ -649,5 +649,27 @@ class TestDetailView(DetailView):
 </div>
 ```
 
-运行
+运行 报错，设置了主键也不行
+
+![image-20230814170703219](https://s2.loli.net/2023/08/14/FYonW3ZDjHTBuLv.png)
+
+哈哈哈，解决了
+
+在view_class.py里面 在类detailview添加方法
+
+```
+    def get_object(self, queryset = None):
+        pk = self.kwargs.get('pk')
+        return UserBaseInfo.objects.get(pk = pk)
+```
+
+这里的主键对应数据库中的id，一定要存在且对应
+
+数据库：
+
+![image-20230814174516353](https://s2.loli.net/2023/08/14/JgdzNIRiBWLnmHM.png)
+
+运行结果
+
+![image-20230814174318682](https://s2.loli.net/2023/08/14/rMQz6hyRNKjoYx1.png)
 
