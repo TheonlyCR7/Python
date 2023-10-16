@@ -44,12 +44,12 @@ class TestListView(ListView):
     
 
 class TestDetailView(DetailView):
-    model=UserBaseInfo
+    model=UserBaseInfo  # 关联的Django模型类
     template_name="myapp3/test_detailview.html"
     #设置模板变量
     context_object_name="users"
-    pk_url_kwarg='userid'
+    pk_url_kwarg='userid'  # 用户提供的pk主键对应了id
 
     def get_object(self, queryset = None):
-        pk = self.kwargs.get('pk')
+        pk = self.kwargs.get('pk')  # 获取URL中与视图关联的主键
         return UserBaseInfo.objects.get(pk = pk)

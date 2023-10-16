@@ -37,3 +37,17 @@ Django模板是一种带有DTL语言的HTML文件，这个文件可以被Django�
 
 ### 1.1.2 实例
 
+在myapp3中的视图文件，增加函数
+
+```
+def var(request):
+   #v=PersonInfo.objects.all()
+   #print(v)
+   #列表对象
+   lists=['Java','Python','C','C#','JavaScript']
+   #字典对象
+   dicts={'姓名':'张三','年龄':25,'性别':'男'}
+
+   return render(request,'3/var.html',{'lists':lists,'dicts':dicts})
+```
+
