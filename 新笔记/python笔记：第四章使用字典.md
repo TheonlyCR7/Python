@@ -96,9 +96,9 @@ print(d)
 >
 > ```py
 > d = {
->     'name_a' :'Gumby', 'age1':42, 
->     'name_b' :'bob', 'age2':12, 
->     'name_c':'lily', 'age3':14}
+>  'name_a' :'Gumby', 'age1':42, 
+>  'name_b' :'bob', 'age2':12, 
+>  'name_c':'lily', 'age3':14}
 > x = d
 > x.clear()
 > print(x)
@@ -234,9 +234,9 @@ print(d.get('name', 'N/A'))
 
 ### 1.5.5 items 将字典变成列表输出
 
-返回一个包含所有字典项的列表，其中每个元素都为(key, value)的形式，顺序不固定
+> 在 Python 中，`items()` 方法通常用于字典（`dict`）对象。它返回一个包含字典所有键值对的视图对象，可以用于遍历字典中的所有键值对。
 
-```py
+```python
 d = {
     'name_a' :'Gumby', 'age1':42, 
     'name_b' :'bob', 'age2':12}
@@ -302,6 +302,8 @@ print(d)
 {}
 ```
 
+
+
 ```py
 d = {'name_a' :'Gumby', 'age1':42}
 d_len = len(d.items())
@@ -322,13 +324,33 @@ while(i < d_len):
 
 有点像get 但对于找不到指定的键时，会添加指定的键值
 
-```py
-d = {}
-print(d.setdefault('name', 'None'))
-print(d)
-> 
-None
-{'name': 'None'}
+```Python
+dict.setdefault(key, default=None)
+```
+
+* `key`: 要查找的键。
+
+* `default`: 如果键不存在时设置的默认值。如果未提供该参数，则默认为 `None`。
+
+```
+my_dict = {'a': 1, 'b': 2, 'c': 3}
+value = my_dict.setdefault('b', 100)
+print(value)  # 输出: 2
+print(my_dict)  # 输出: {'a': 1, 'b': 2, 'c': 3}
+```
+
+```python
+my_dict = {'a': 1, 'b': 2, 'c': 3}
+value = my_dict.setdefault('b', 100)
+print(value)  # 输出: 2
+print(my_dict)  # 输出: {'a': 1, 'b': 2, 'c': 3}
+```
+
+```python
+my_dict = {'a': 1, 'b': 2, 'c': 3}
+value = my_dict.setdefault('d', 100)
+print(value)  # 输出: 100
+print(my_dict)  # 输出: {'a': 1, 'b': 2, 'c': 3, 'd': 100}
 ```
 
 
@@ -352,7 +374,7 @@ print(d1)
 ```py
 d1 = {'name': 'bob', 'age': 60, 'weight': 60}
 print(d1.values())
-dict_values(['bob', 60, 60])
+> dict_values(['bob', 60, 60])
 ```
 
 返回类型同样为字典视图

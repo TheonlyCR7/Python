@@ -7,17 +7,17 @@
 # 1.变量的作用域
 
   ```python
-  c = 50      #全局变量， 作用域为整个模块，若被引用，可作用域整个包
-    
-  def plus(x,y):
-      c = x + y           # 局部变量, 为函数中定义的变量，在函数外可被引用
-      print(c)
-    
-  plus(1,2)
-  print(c)        # 函数内部定义的变量只作用与函数内部 50而不是3
-  >
-  3 
-  50
+c = 50      #全局变量， 作用域为整个模块，若被引用，可作用域整个包
+
+def plus(x,y):
+    c = x + y           # 局部变量, 为函数中定义的变量，在函数外可被引用
+    print(c)
+
+    plus(1,2)
+    print(c)        # 函数内部定义的变量只作用与函数内部 50而不是3
+>
+3 
+50
   ```
 
 两者转换
@@ -100,6 +100,8 @@ def __init__(self, name, age):
 
 * 上面两种形式可以同时存在，也可以只存在一种
 
+
+
 ## 2.3关于self
 
 * self只有在类的方法中才会有，独立的函数或方法是不必带有self的
@@ -154,7 +156,7 @@ def __init__(self,name1,age1):
 
 ## 2.5实例变量与类变量
 
-实例变量：
+### 实例变量：
 
 顾名思义，通过创建对象实例化产生，通过对象进行引用。在类内部表现为：`self.变量名`
 
@@ -162,7 +164,7 @@ def __init__(self,name1,age1):
 
 当出现`对象名.变量名` 引用变量时，先对类里面的实例变量进行寻找，若无，则再去类变量中寻找
 
-```py
+```python
 class Dog:
 	name = 'None' # 类变量
 	nickname = 'Name' # 类变量
@@ -218,7 +220,13 @@ def 方法名(self, 形参): # self必须有 形参可有可无
 
 ## 2.5类方法与类变量
 
-类方法的基本格式
+> 在 Python 中，类方法和类变量是与类本身相关联的成员。
+
+#### 类方法
+
+> 类方法是属于类而不是实例的方法。类方法使用 `@classmethod` 装饰器来定义，并且第一个参数通常命名为 `cls`，代表类本身。
+
+基本格式
 
 ```
 @classmethod            #为装饰器
@@ -226,7 +234,9 @@ def plus_sum(cls):      #cls  为class 的缩写 作用与self类似
     pass
 ```
 
-类变量：只与类相关
+#### 类变量：只与类相关
+
+> 类变量是属于类的变量，所有实例共享同一个变量。类变量通常用于保存类级别的数据，而不是实例级别的数据。
 
 ```
 __class__.变量名 或者是在类方法中的 cls.变量名   
@@ -258,6 +268,21 @@ classroom.plus_sum()                # 通过类来调用 方法
 classroom.student1.plus_sum()       # 通过对象来调用方法
 ```
 
+```
+当前班级学生总人数为:1
+当前班级的平均年龄为:10.0
+当前班级学生总人数为:2
+当前班级的平均年龄为:9.5
+当前班级学生总人数为:3
+当前班级的平均年龄为:9.0
+班级总人数为: 3
+班级总人数为: 3
+```
+
+
+
+
+
 ## 2.6静态方法          
 
 -   用的不多   与类 实例方法 关联不大   与普通函数区别不大  
@@ -285,14 +310,15 @@ class Company:
         Company.sum = staff_a + staff_b + staff_c
     
     @staticmethod                   # 装饰器
-    def add(x,y):                       # 与类方法实例方法不同，（）内无需强制添加变量
+    def add(x,y):                   # 与类方法实例方法不同，（）内无需强制添加变量
         print('This is a method')
         print(Company.bass_name)        #  正常引用类变量
         print(x + y)                #引用形参
         print(self.staff_a)             #报错
         print(staff_a)                  #报错
     
-    Company1 = Company(staff_a = 10,staff_b = 20,staff_c = 30)
-    Company1.add(1,2)
-    Company.add(1,2)                #可正常被调用
+Company1 = Company(staff_a = 10,staff_b = 20,staff_c = 30)
+Company1.add(1,2)
+Company.add(1,2)                #可正常被调用
 ```
+

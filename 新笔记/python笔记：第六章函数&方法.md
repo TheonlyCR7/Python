@@ -2,9 +2,9 @@
 
 由系统提供，直接拿来用或是导入模块后使用
 
-```
+```python
 a = 1.12386
-result = round(a,2)
+result = round(a,2)  // round 函数用于对浮点数进行四舍五入
 print(result)
 > 1.12
 ```
@@ -127,7 +127,7 @@ print(c)
 > 5
 ```
 
-* 给函数设置默认参数，不传参也能可以调用
+* 给函数设置**默认参数**，不传参也能可以调用
 
 ```python
 # collage已经设置默认参数，不传参即采用默认参数
@@ -152,7 +152,7 @@ My gender is man
 My school is 怕跌中学
 ```
 
-* 星号参数 类似于序列解包中的星号变量 接收余下位置的参数（或全部接收）
+* **星号参数** 类似于序列解包中的星号变量 接收余下位置的参数（或全部接收）
 
 ```python
 def printer(*ele):
@@ -201,7 +201,13 @@ printer(*tuple1)
 def hello(greeting = 'Hello', name = 'world'):
 	print('{}, {}!'.format(greeting, name))
 params = {'name': 'bobo', 'greeting': 'well met'}
-print()
+hello()
+result = hello(**params)
+```
+
+```
+Hello, world!
+well met, bobo!
 ```
 
 * 对于星号的使用，能不用最好，一般情况下，也可以达到相同效果

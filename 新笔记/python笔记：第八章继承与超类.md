@@ -18,7 +18,7 @@ class Bobo(Dog):  # Dog类的子类
 
 子类会
 
-* 重新定义重写超类方法init
+* 重新定义 重写超类方法init
 * 继承超类的方法，无需再次编写
 
 ```python
@@ -67,7 +67,7 @@ Bobo is eating.
 
 ## 1.1查找一个类的子类和基类
 
-* `issubclass` 确定一个类是否是另一个类的子类
+### `issubclass` 确定一个类是否是另一个类的子类
 
 ```
 issubclass(Bobo, Dog)  # 子类 超类
@@ -76,16 +76,16 @@ issubclass(Dog, Bobo)
 > False
 ```
 
-* 已知一个类，想知道它的基类，访问特殊属性 `__bases__`
+### 已知一个类，想知道它的基类，访问特殊属性 `__bases__`
 
 ```python
 print(Bobo.__bases__)
 > (<class '__main__.Dog'>,)
 ```
 
-* `isinstance` 确定创建的对象是否是特定类的实例
+### `isinstance` 确定创建的对象是否是特定类的实例
 
-  创建子类的实例，这个对象同时也是其基类的实例
+创建子类的实例，这个对象同时也是其基类的实例
 
 ```python
 class Dog:
@@ -132,9 +132,9 @@ class C(A, B):  # 同时继承A和B
 
 ## 1.3接口
 
-接口这一概念与多态相关。实际上，python中没有与java相对应的接口。需要特定的模块来实现
+接口这一概念与多态相关。实际上，python中没有与java相对应的接口。
 
-
+通常以抽象基类的方式存在
 
 ## 1.4 抽象基类
 
